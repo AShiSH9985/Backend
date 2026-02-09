@@ -1,0 +1,68 @@
+// server create karna
+const express=require("express")
+const notemodel=require("./models/note.model")
+const app=express()
+
+app.use(express.json())
+/**
+ * Post /api/notes
+ * create new note and save data in mongodb
+ */
+app.post("/api/notes", async (req,res)=>{
+    const {title,description} = req.body
+
+    const note =await notemodel.create({
+        title,description
+    })
+    res.status(201).json({
+        message:"note created successfully",
+        note
+    })
+})
+
+
+/**
+ * get /api/notes 
+ * fetch all notes data from mongodb and send them in the response
+ */
+
+app.get("/api/notes", async (req,res)=>{
+   const notes=await notemodel.find()
+   res.status(200).json({
+    message:"Notes fetched successfully",
+    notes 
+   })
+})
+
+/**
+ * delete /api/notes:id
+ * delete note with the id from req.params
+ */
+
+app.delete('/api/notes/:id', async(req,res)=>{
+    const id=req.params.id
+    const note=await notemodel.findByIdAndDelete(id)
+    res.status(200).json({
+        message:"Note deleted succesfully",
+        note
+    })
+})
+
+
+/***
+ *  patch /api/notes/:id
+ * update the description of the note
+ * req.body={description}
+ */
+
+app.patch("/api/notes/:id",async (req,res)=>{
+    const id=req.params.id
+    const {description} =req.body
+    await notemodel.findByIdAndUpdate(id,{description})
+
+    res.status(200).json({
+        message:"update note successfully"
+    })
+})
+
+module.exports=app
