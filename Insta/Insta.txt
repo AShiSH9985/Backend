@@ -1,0 +1,15 @@
+==> Authentication
+    => register (1. user register karna 2.token create karna)
+    => login
+    => logout (token blacklisting)
+    => [otp based registration]
+
+==> post
+    => create
+    => can see the feed
+    => like posts (collection types)
+    => save post
+
+==> users
+    => follow
+    => following 
