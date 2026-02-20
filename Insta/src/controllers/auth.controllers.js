@@ -5,20 +5,7 @@ const jwt = require("jsonwebtoken")
 async function registerController(req,res){
     const {email,password,username,bio,profile_image} =req.body
 
-//     const isEmail = await userModel.findOne({email})
-//     if(isEmail){
-//         return res.status(409).json({
-//             message:"User already exists with same email"
-//         })
-//     }
 
-//     const isUserNameExists = await usesrModel.findOne({username})
-//     if(isUserNameExists){
-//         return res.status(409).json({
-//             message:"User name already exists"
-//         })
-//     }
-// 
 
 
     const isUserAlreadyExists = await userModel.findOne({
@@ -48,7 +35,8 @@ async function registerController(req,res){
      * data unique hona chahiye
      */
     const token = jwt.sign({
-        id:user._id
+        id:user._id,
+        username:user.username
     },process.env.JWT_SECRET,{expiresIn:"1d"})
 
     res.cookie=("jwt_token",token)
@@ -88,7 +76,8 @@ async function loggedIn (req,res){
         })
     }
     const token = jwt.sign({
-        id:user._id
+        id:user._id,
+        username:user.username
     },process.env.JWT_SECRET,{expiresIn:"1d"})
 
     res.cookie("JWT_token" , token)
