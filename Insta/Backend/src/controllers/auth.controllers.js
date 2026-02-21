@@ -39,7 +39,12 @@ async function registerController(req,res){
         username:user.username
     },process.env.JWT_SECRET,{expiresIn:"1d"})
 
-    res.cookie=("jwt_token",token)
+    res.cookie("jwt_token", token, {
+      httpOnly: true,
+      secure: false, // true only in production (https)
+      sameSite: "lax",
+      maxAge: 24 * 60 * 60 * 1000
+    })
     res.status(201).json({
         message:"User registered",
         user:{
@@ -80,7 +85,12 @@ async function loggedIn (req,res){
         username:user.username
     },process.env.JWT_SECRET,{expiresIn:"1d"})
 
-    res.cookie("JWT_token" , token)
+    res.cookie("jwt_token", token, {
+      httpOnly: true,
+      secure: false, // true only in production (https)
+      sameSite: "lax",
+      maxAge: 24 * 60 * 60 * 1000
+    })
     res.status(200).json({
         message:"User loggedIn successfully",
         user:{
