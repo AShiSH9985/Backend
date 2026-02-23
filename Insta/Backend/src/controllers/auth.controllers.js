@@ -5,9 +5,6 @@ const jwt = require("jsonwebtoken")
 async function registerController(req,res){
     const {email,password,username,bio,profile_image} =req.body
 
-
-
-
     const isUserAlreadyExists = await userModel.findOne({
         $or:[
             {username},
@@ -39,14 +36,10 @@ async function registerController(req,res){
         username:user.username
     },process.env.JWT_SECRET,{expiresIn:"1d"})
 
-    res.cookie("jwt_token", token, {
-      httpOnly: true,
-      secure: false, // true only in production (https)
-      sameSite: "lax",
-      maxAge: 24 * 60 * 60 * 1000
-    })
+    res.cookie("token", token)
+
     res.status(201).json({
-        message:"User registered",
+        message:"User registered successfully",
         user:{
             email:user.email,
             username:user.username,
@@ -56,7 +49,7 @@ async function registerController(req,res){
     })
 }
 
-async function loggedIn (req,res){
+async function loginController (req,res){
     const {username,email,password} = req.body
 
     const user = await userModel.findOne({
@@ -85,12 +78,8 @@ async function loggedIn (req,res){
         username:user.username
     },process.env.JWT_SECRET,{expiresIn:"1d"})
 
-    res.cookie("jwt_token", token, {
-      httpOnly: true,
-      secure: false, // true only in production (https)
-      sameSite: "lax",
-      maxAge: 24 * 60 * 60 * 1000
-    })
+    res.cookie("jwt_token", token)
+
     res.status(200).json({
         message:"User loggedIn successfully",
         user:{
@@ -102,7 +91,23 @@ async function loggedIn (req,res){
     })
 }
 
+async function getMeController(req,res){
+    
+    const userId = req.user.id
+    const user= await userModel.findById(userId)
+
+    res.status(200).json({
+      user:{
+        username:user.username,
+        email:user.email,
+        bio:user.bio,
+        profile_image:user.profile_image
+      }
+    })
+}
+
 module.exports={
     registerController,
-    loggedIn
+    loginController,
+    getMeController
 }
