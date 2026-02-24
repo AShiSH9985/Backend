@@ -13,4 +13,4 @@ function AppRoutes(){
     </BrowserRouter>)
 } 
 
-export default AppRoutes
+export default AppRoutes  
