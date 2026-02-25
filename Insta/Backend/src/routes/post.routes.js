@@ -31,4 +31,13 @@ const identifyUser=require("../middleware/auth.middleware")
   */
  postRouter.post("/like/:postId",identifyUser,PostController.likePostController)
 
+ /**
+  * @route Get/api/posts/feed
+  * @description get all post created in the DB
+  * @access private
+  */
+
+ postRouter.get("/feed",identifyUser,PostController.getFeedController)
+
+
  module.exports=postRouter

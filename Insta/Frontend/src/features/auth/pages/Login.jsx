@@ -31,12 +31,12 @@ const Login = () => {
                 <h1>Login</h1>
                 <form onSubmit={handleSubmit} >
                     <input
-                        onInput={(e) => { setUsername(e.target.value) }}
+                        onChange={(e) => { setUsername(e.target.value) }}
                         type="text"
                         name='username'
                         placeholder='Enter username' />
                     <input
-                        onInput={(e) => { setPassword(e.target.value) }}
+                        onChange={(e) => { setPassword(e.target.value) }}
                         type="password"
                         name='password'
                         placeholder='Enter password' />
