@@ -30,6 +30,7 @@ const identifyUser=require("../middleware/auth.middleware")
   * @description like a post with the id provided in the request params
   */
  postRouter.post("/like/:postId",identifyUser,PostController.likePostController)
+ postRouter.post("/unlike/:postId",identifyUser,PostController.unlikePostController)
 
  /**
   * @route Get/api/posts/feed
